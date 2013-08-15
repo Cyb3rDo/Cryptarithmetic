@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# crypt solution from the internets
+
+import cProfile
+from re import sub
+
+def solve(q):
+	try:
+		n = (i for i in q if i.isalpha()).next()
+	except StopIteration:
+		return q if eval(sub(r'(^|[^0-9])0+([1-9]+)', r'\1\2', q)) else False
+	else:
+		for i in (str(i) for i in range(10) if str(i) not in q):
+			r = solve(q.replace(n, str(i)))
+			if r:
+				return r
+		return False
+
+cProfile.run("solve('SEND + MORE == MONEY')")
